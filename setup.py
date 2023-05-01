@@ -5,9 +5,9 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setuptools.setup(
     name="owo_tools",
-    version="0.0.1",
+    version="0.0.2",
     author="Ryan Liu",
-    author_email="pm@owomail.cc"
+    author_email="pm@owomail.cc",
     description="A small example package",
     long_description=long_description,
     long_description_content_type="text/markdown",
