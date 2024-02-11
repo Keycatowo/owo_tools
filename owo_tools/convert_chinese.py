@@ -12,12 +12,13 @@ Arguments:
     --verbose: Display all replaced text. (Optional)
 
 Example:
-    python convert_chinese.py -i input.txt -o output.txt --conversion s2t --verbose
+    python convert_chinese.py -i input.txt -o output.txt --conversion s2twp --verbose
 """
 #%%
 import re
 import argparse
 from opencc import OpenCC
+import argparse
 
 def convert_chinese(input_path, output_path, conversion, verbose=False):
     with open(input_path, 'r', encoding='utf-8') as file:
@@ -37,7 +38,7 @@ def convert_chinese(input_path, output_path, conversion, verbose=False):
         file.write(converted_content)
 
 #%%
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Convert between Simplified and Traditional Chinese.")
     parser.add_argument("-i", "--input", required=True, help="Input file path.")
     parser.add_argument("-o", "--output", required=True, help="Output file path.")
@@ -47,3 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     convert_chinese(args.input, args.output, args.conversion, args.verbose)
+
+
+if __name__ == "__main__":
+    main()
