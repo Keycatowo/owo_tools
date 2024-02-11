@@ -1,0 +1,31 @@
+# 這是一個 Python 程式，它將計算兩個數字的和。
+
+# 定義一個函式來計算兩個數字的和。
+def add_two_numbers(a, b):
+    """
+    計算兩個數字的和。
+
+    Args:
+        a: 第一個數字。
+        b: 第二個數字。
+
+    Returns:
+        兩個數字的和。
+    """
+
+    # 計算兩個數字的和。
+    sum = a + b
+
+    # 返回兩個數字的和。
+    return sum
+
+
+# 獲取兩個數字。
+num1 = int(input("請輸入第一個數字："))
+num2 = int(input("請輸入第二個數字："))
+
+# 計算兩個數字的和。
+result = add_two_numbers(num1, num2)
+
+# 列印兩個數字的和。
+print("兩個數字的和是：", result)
