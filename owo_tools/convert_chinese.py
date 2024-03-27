@@ -20,22 +20,46 @@ import argparse
 from opencc import OpenCC
 import argparse
 
-def convert_chinese(input_path, output_path, conversion, verbose=False):
-    with open(input_path, 'r', encoding='utf-8') as file:
-        content = file.read()
+def print_colored(text, color):
+    """Prints the text in the specified color."""
+    colors = {
+        "red": "\033[91m",
+        "yellow": "\033[93m",
+        "green": "\033[92m",
+        "reset": "\033[0m"
+    }
+    print(f"{colors[color]}{text}{colors['reset']}")
+
+def convert_chinese(input_path, output_path, conversion, verbose=False, error_handling='warn-skip'):
+    try:
+        with open(input_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+    except UnicodeDecodeError as e:
+        if error_handling == 'error':
+            print_colored(f"Error reading file {input_path} with UTF-8 encoding: {e}. Aborting.", "red")
+            raise e
+        elif error_handling == 'warn':
+            print_colored(f"Warning: Could not read file {input_path} with UTF-8 encoding: {e}. Skipping.", "yellow")
+            return
+        elif error_handling == 'skip':
+            return
+
     
     def replace_text(match):
         cc = OpenCC(conversion)  # 根據用戶選擇設定繁簡轉換
         original = match.group()
         converted = cc.convert(original)
         if verbose:
-            print(f"**{original} -> {converted}**")
+            print(f"\t{original} -> {converted}")
         return converted
     
     converted_content = re.sub(r'[\u4e00-\u9fa5]+', replace_text, content)
     
     with open(output_path, 'w', encoding='utf-8') as file:
         file.write(converted_content)
+        
+    if verbose:
+        print_colored(f"Conversion completed. Output written to {output_path}.", "green")
 
 #%%
 def main():
@@ -44,6 +68,8 @@ def main():
     parser.add_argument("-o", "--output", required=True, help="Output file path.")
     parser.add_argument("--conversion", choices=['s2t', 't2s', 's2twp'], required=True, help="Conversion direction: 's2t' for Simplified to Traditional, 't2s' for Traditional to Simplified, 's2twp` for Simplified Chinese to Traditional Chinese (Taiwan standard, with phrases).")
     parser.add_argument("--verbose", action="store_true", help="Display all replaced text.")
+    parser.add_argument("--error-handling", choices=['error', 'warn', 'skip'], default='warn', help="Error handling method when encountering non UTF-8 encoded files. 'error' to abort, 'warn' to display a warning and skip the file, 'skip' to skip the file without warning. Default is 'warn'.")
+
 
     args = parser.parse_args()
 
