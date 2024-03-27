@@ -66,7 +66,7 @@ def main():
     parser = argparse.ArgumentParser(description="Convert between Simplified and Traditional Chinese.")
     parser.add_argument("-i", "--input", required=True, help="Input file path.")
     parser.add_argument("-o", "--output", required=True, help="Output file path.")
-    parser.add_argument("--conversion", choices=['s2t', 't2s', 's2twp'], required=True, help="Conversion direction: 's2t' for Simplified to Traditional, 't2s' for Traditional to Simplified, 's2twp` for Simplified Chinese to Traditional Chinese (Taiwan standard, with phrases).")
+    parser.add_argument("--conversion", choices=['s2t', 't2s', 's2twp'], default="s2twp", help="Conversion direction: 's2t' for Simplified to Traditional, 't2s' for Traditional to Simplified, 's2twp` for Simplified Chinese to Traditional Chinese (Taiwan standard, with phrases).")
     parser.add_argument("--verbose", action="store_true", help="Display all replaced text.")
     parser.add_argument("--error-handling", choices=['error', 'warn', 'skip'], default='warn', help="Error handling method when encountering non UTF-8 encoded files. 'error' to abort, 'warn' to display a warning and skip the file, 'skip' to skip the file without warning. Default is 'warn'.")
 
